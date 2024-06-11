@@ -4,11 +4,11 @@ import { NextResponse } from "next/server"
 export async function GET (request, {params}) {
     try {
         const id = parseInt(params.id)
-        const result = await prisma.race.findFirst({
+        const result = await prisma.gender.findFirst({
             where : {id : id}
         })
         if (!result) {
-            return new NextResponse("Raza not found", {status: 404})
+            return new NextResponse("Género not found", {status: 404})
         }
         return NextResponse.json(result)
     } catch (error) {
@@ -19,7 +19,7 @@ export async function GET (request, {params}) {
 export async function DELETE (request, {params}) {
     try {
         const id = parseInt(params.id)
-        const result = await prisma.race.delete({
+        const result = await prisma.gender.delete({
             where : {id : id}
         })
         return NextResponse.json({message: result}, {status: 200})
@@ -32,7 +32,7 @@ export async function PUT (request, {params}) {
     try {
         const id = parseInt(params.id)
         const data = await request.json()
-        const result = await prisma.race.update({
+        const result = await prisma.gender.update({
             where : {id : id},
             data : data
         })
