@@ -1,6 +1,15 @@
 import prisma from "@/lib/prisma"
 import { NextResponse } from "next/server"
 
+export async function GET () {
+    try {
+        const categorias = await prisma.category.findMany()
+        return NextResponse.json({datos: categorias}, {status: 200})
+    } catch (error) {
+        return new NextResponse(error.message, {status: 500})
+    }
+}
+
 export async function POST (request) {
     try {
         const data = await request.json()
@@ -13,14 +22,5 @@ export async function POST (request) {
         })
     } catch (error) {
         return new NextResponse(error.message, {status:500})
-    }
-}
-
-export async function GET () {
-    try {
-        const categorias = await prisma.category.findMany()
-        return NextResponse.json({datos: categorias}, {status: 200})
-    } catch (error) {
-        return new NextResponse(error.message, {status: 500})
     }
 }

@@ -14,6 +14,14 @@ import { protectRoutes } from "../components/Protect"
 
 function page() {
 
+  const [numcategorias, setnumcategorias] =useState()
+  
+  const getNumcategorias = async () => {
+    const respuesta = await axios.get("http://localhost:3000/api/categorias/numCategorias")
+    const data = respuesta.data.datos;
+    setnumcategorias(data)
+  }
+
 
   const [mascotas, setMascotas] = useState([])
 
@@ -50,6 +58,7 @@ function page() {
            <Close/>
            
        </div>
+
        <div >
         <Link href="/registrar">
           <Image
@@ -57,6 +66,11 @@ function page() {
           alt='btn-register'
           />
         </Link>
+       </div>
+       
+       <div className='bg-white'>
+        Contador Categorias:
+        {numcategorias}
        </div>
       <div className='h-4/5 overflow-y-auto overflow-x-hidden '>
       {
