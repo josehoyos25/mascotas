@@ -14,13 +14,19 @@ import { protectRoutes } from "../components/Protect"
 
 function page() {
 
-  const [numcategorias, setnumcategorias] =useState()
-  
-  const getNumcategorias = async () => {
-    const respuesta = await axios.get("http://localhost:3000/api/categorias/numCategorias")
-    const data = respuesta.data.datos;
-    setnumcategorias(data)
-  }
+  const [numcategorias, setnumCategorias] =useState()
+
+
+  const getNumCategorias = async () => {
+    try {
+      const respuesta = await axios.get('http://localhost:3000/api/mascotas');
+      const data = respuesta.data.datos;
+      console.log(data)
+      setnumCategorias(data.length);
+    } catch (error) {
+      console.error('Error al obtener categorías:', error);
+    }
+  };
 
 
   const [mascotas, setMascotas] = useState([])
@@ -39,7 +45,8 @@ function page() {
 
 
   useEffect (() => {
-    getMascotas()
+    getMascotas();
+    getNumCategorias();
   },[])
 
 
@@ -68,10 +75,9 @@ function page() {
         </Link>
        </div>
        
-       <div className='bg-white'>
-        Contador Categorias:
-        {numcategorias}
-       </div>
+        <div className='bg-white'>
+          Contador Categorias: {numcategorias} {/* Display the counter */}
+        </div>
       <div className='h-4/5 overflow-y-auto overflow-x-hidden '>
       {
         mascotas.map(mascota => (
@@ -88,12 +94,23 @@ function page() {
               <h2 className='text-gray-700'>{mascota.race}</h2>
               </div>
           </div>
+          <div>
+
+          </div>
           <div className='flex w-1/3 justify-center items-center gap-2'>
             <div className='cursor-pointer flex justify-center items-center'>
               <Link href={`/mostrar/${mascota.id}`}>
               <Image 
               src={btnShow}
               alt='mostrar'
+              />
+              </Link>
+            </div>
+            <div className='cursor-pointer flex justify-center items-center'>
+              <Link href={`/mostrar2/${mascota.id}`}>
+              <Image 
+              src={btnShow}
+              alt='mostrar2'
               />
               </Link>
             </div>

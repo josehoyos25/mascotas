@@ -12,6 +12,8 @@ export async function POST (request) {
         const race_id = parseInt(data.get('race_id'), 10);
         const category_id = parseInt(data.get('category_id'), 10);
         const gender_id = parseInt(data.get('gender_id'), 10);
+        const municipio_id = parseInt(data.get('municipio_id'), 10);
+        const propietario_id = parseInt(data.get('propietario_id'), 10);
         
         const file = data.get('photo');
 
@@ -28,6 +30,8 @@ export async function POST (request) {
             race_id: race_id,
             category_id: category_id,
             gender_id: gender_id,
+            municipio_id: municipio_id,
+            propietario_id: propietario_id,
           }
       }))
 
@@ -48,6 +52,8 @@ export async function GET() {
           fk_race: true,
           fk_category: true,
           fk_gender: true,
+          fk_municipio: true,
+          fk_propietario: true,
         },
       });
   
@@ -58,6 +64,8 @@ export async function GET() {
         photo: pet.photo,
         gender: pet.fk_gender.name,
         name: pet.name,
+        propietario: pet.propietario,
+        municipio: pet.municipio
       }));
   
       return NextResponse.json({ datos: formattedPets }, { status: 200 });

@@ -22,13 +22,16 @@ function page() {
   const [razas, setRazas] = useState([])
   const [category, setCategory] = useState([])
   const [genders, setGenders] = useState([])
+  const [municipio, setMunicipio] = useState([])
+  const [propietario, setPropietario] = useState([])
   const [file, setFile] = useState(null)
-
   const [pet, setPet] = useState({
     name: "",
     race_id: "",
     category_id: "",
     gender_id: "",
+    municipio_id: "",
+    propietario_id: "",
   })
 
   const getRazas = async () => {
@@ -58,6 +61,26 @@ function page() {
       console.log(error);
     }
   }
+  const getMunicipio = async () => {
+    try {
+      const razas = await axios.get("http://localhost:3000/api/municipio");
+      const respuesta = razas.data.datos;
+      setMunicipio(respuesta)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getPropietario = async () => {
+    try {
+      const razas = await axios.get("http://localhost:3000/api/propietario");
+      const respuesta = razas.data.datos;
+      setPropietario(respuesta)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
   const inputValue = (event) => {
     setPet({
@@ -74,6 +97,8 @@ function page() {
       datos.append('race_id', parseInt(pet.race_id, 10));
       datos.append('category_id', parseInt(pet.category_id, 10));
       datos.append('gender_id', parseInt(pet.gender_id, 10));
+      datos.append('municipio_id', parseInt(pet.municipio_id, 10));
+      datos.append('propietario_id', parseInt(pet.propietario_id, 10));
       datos.append('photo', file);
 
       console.log("FormData before send:", Array.from(datos.entries()));
@@ -97,6 +122,8 @@ function page() {
     getRazas();
     getCategory();
     getGenders();
+    getMunicipio();
+    getPropietario();
   }, [])
 
 
@@ -170,6 +197,7 @@ function page() {
                 type="file"
                 accept="image/*"
               />
+
               <span className="outline-none cursor-pointer">
                 Subir Foto
               </span>
@@ -186,6 +214,28 @@ function page() {
                 genders.map(gender => (
                   <option key={gender.id} value={gender.id}>
                     {gender.name}
+                  </option>
+                ))
+              }
+            </select>
+            <select name='municipio_id' onChange={inputValue}
+              className='p-3 w-full bg-[#ffffffa5] outline-none   rounded-[30px]'>
+              <option value="">Seleccione el Municipio...</option>
+              {
+                municipio.map(munici => (
+                  <option key={munici.id} value={munici.id}>
+                    {munici.municipio}
+                  </option>
+                ))
+              }
+            </select>
+            <select name='propietario_id' onChange={inputValue}
+              className='p-3 w-full bg-[#ffffffa5] outline-none   rounded-[30px]'>
+              <option value="">Seleccione el Propietario...</option>
+              {
+                propietario.map(propie => (
+                  <option key={propie.id} value={propie.id}>
+                    {propie.name}
                   </option>
                 ))
               }

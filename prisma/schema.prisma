@@ -27,9 +27,13 @@ model Mascota {
   category_id Int
   photo String @db.VarChar(64)
   gender_id Int
+  propietario_id Int
+  municipio_id Int
   fk_race Race @relation(fields: [race_id], references: [id])
   fk_category Category @relation(fields: [category_id], references: [id])
   fk_gender Gender @relation(fields: [gender_id], references: [id])
+  fk_propietario Propietario @relation(fields: [propietario_id], references: [id])
+  fk_municipio Municipio @relation(fields: [municipio_id], references: [id])
 }
 
 model Race {
@@ -48,4 +52,14 @@ model Gender {
   id Int @id @default(autoincrement())
   name String @db.VarChar(32)
   relationGender Mascota[]
+}
+model Propietario {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(32)
+  relationPropiestario Mascota[]
+}
+model Municipio {
+  id Int @id @default(autoincrement())
+  municipio String @db.VarChar(50)
+  relationMunicipio Mascota[]
 }

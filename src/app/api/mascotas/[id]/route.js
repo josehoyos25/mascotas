@@ -12,6 +12,8 @@ export async function GET (request, {params}) {
                 fk_race: true,
                 fk_category: true,
                 fk_gender: true,
+                fk_propietario: true,
+                fk_municipio: true,
             }
         })
         if (!result) {
@@ -44,6 +46,8 @@ export async function PUT (request, {params}) {
         const race_id = parseInt(data.get('race_id'), 10);
         const category_id = parseInt(data.get('category_id'), 10);
         const gender_id = parseInt(data.get('gender_id'), 10);
+        const propietario_id = parseInt(data.get('propietario_id'), 10);
+        const municipio_id = parseInt(data.get('municipio_id'), 10);
         
         const file = data.get('photo');
 
@@ -58,7 +62,9 @@ export async function PUT (request, {params}) {
             photo: data.photo,
             fk_race: { connect: { id: data.race_id } },
             fk_category: { connect: { id: data.category_id } },
-            fk_gender: { connect: { id: data.gender_id } }
+            fk_gender: { connect: { id: data.gender_id } },
+            fk_propietario: { connect: { id: data.propietario_id } },
+            fk_municipio: { connect: { id: data.municipio_id } }
           };
 
         const result = await prisma.mascota.update({
@@ -69,6 +75,8 @@ export async function PUT (request, {params}) {
             race_id: race_id,
             category_id: category_id,
             gender_id: gender_id,
+            propietario_id: propietario_id,
+            municipio_id: municipio_id,
           }
         })
         return NextResponse.json({message: result}, {status: 200})
